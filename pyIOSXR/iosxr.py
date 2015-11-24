@@ -125,7 +125,9 @@ class IOSXR:
                 pass
             device.expect('#', timeout = self.timeout)
             device.sendline('xml')
-            device.expect('XML>', timeout = self.timeout)
+            index = device.expect(['XML>', pexpect.EOF], timeout = self.timeout)
+            if index == 2:
+                pass
         except pexpect.TIMEOUT as e:
             raise TimeoutError("pexpect timeout error")
         except pexpect.EOF as e:
